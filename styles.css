@@ -1,3 +1,4 @@
+/* Root variables for colors & spacing */
 :root{
   --bg: #f6f8fb;
   --card: #ffffff;
@@ -6,181 +7,125 @@
   --gap: 1.25rem;
 }
 
-/* Reset & base */
-*{box-sizing:border-box;margin:0;padding:0}
-body{
+/* Reset & base styles */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
   font-family: Inter, system-ui, Arial, sans-serif;
-  background:var(--bg);
-  color:#222;
-  line-height:1.4;
-  padding-bottom:3rem;
+  background: var(--bg);
+  color: #222;
+  line-height: 1.4;
+  padding-bottom: 3rem;
 }
 
-/* Header */
-header{
+/* Header styling */
+header {
   background: linear-gradient(90deg,#3b69b0,#5b8be0);
-  color:#fff;
-  padding:1rem 1.25rem;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  color: #fff;
+  padding: 1rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-header h1{font-size:1.25rem;margin:0}
-#theme-toggle{
-  background:#fff;border:none;padding:.4rem .7rem;border-radius:6px;color:var(--primary);cursor:pointer;
+header h1 { font-size: 1.25rem; }
+#theme-toggle {
+  background: #fff;
+  border: none;
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
+  color: var(--primary);
+  cursor: pointer;
 }
 
-/* Nav placeholder */
-nav{padding:.75rem 1rem;background:transparent;color:var(--muted);text-align:center}
+/* Nav placeholder styling */
+nav {
+  padding: 0.75rem 1rem;
+  background: transparent;
+  color: var(--muted);
+  text-align: center;
+}
 
 /* Timeline container */
-#timeline{
-  padding:2rem 1rem;
-  display:flex;
-  flex-direction:column;
-  gap:var(--gap);
-  align-items:center;
-  max-width:1100px;
-  margin:0 auto;
+#timeline {
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
-/* Each item */
-.timeline-item{
-  display:flex;
-  gap:1rem;
-  align-items:flex-start;
-  width:100%;
-  max-width:900px;
+/* Each timeline item */
+.timeline-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 900px;
 }
 
-/* Marker (dot) */
-.event{
-  width:18px;height:18px;border-radius:50%;
-  background:var(--primary);
-  flex:0 0 18px;
-  margin-top:8px;
-  box-shadow:0 1px 0 rgba(0,0,0,.08);
+/* Marker dot */
+.event {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--primary);
+  flex: 0 0 18px;
+  margin-top: 8px;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.08);
 }
 
 /* Content card */
-.content{
-  background:var(--card);
-  padding:.85rem 1rem;
-  border-radius:8px;
-  box-shadow:0 6px 18px rgba(20,20,30,.06);
-  flex:1 1 auto;
+.content {
+  background: var(--card);
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(20,20,30,0.06);
+  flex: 1 1 auto;
 }
-.content h3{font-size:1rem;margin-bottom:.25rem}
-.content p{color:var(--muted);font-size:.95rem;margin:0}
+.content h3 { font-size: 1rem; margin-bottom: 0.25rem; }
+.content p { color: var(--muted); font-size: 0.95rem; margin: 0; }
 
-/* Modal base (hidden by default) */
-#modal{display:none;position:fixed;inset:0;align-items:center;justify-content:center;background:rgba(0,0,0,.5);z-index:60}
-#modal .dialog{background:#fff;padding:1rem;border-radius:8px;max-width:700px;width:92%}
-
-/* ===== Responsive breakpoints ===== */
-
-/* Mobile: <768px (vertical stack) */
-@media (max-width:767px){
-  header h1{font-size:1.05rem}
-  .timeline-item{padding:0 .5rem}
+/* Modal styling */
+#modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.5);
+  z-index: 60;
+}
+#modal .dialog {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  max-width: 700px;
+  width: 92%;
 }
 
-/* Tablet: 768–1023px — wrap into two columns */
+/* Responsive breakpoints */
+@media (max-width: 767px){
+  header h1 { font-size: 1.05rem; }
+  .timeline-item { padding: 0 0.5rem; }
+}
+
 @media (min-width:768px) and (max-width:1023px){
-  #timeline{flex-direction:row;flex-wrap:wrap;gap:1.25rem;justify-content:center}
-  .timeline-item{width:48%;max-width:460px}
+  #timeline { flex-direction: row; flex-wrap: wrap; gap: 1.25rem; justify-content: center; }
+  .timeline-item { width: 48%; max-width: 460px; }
 }
 
-/* Desktop: ≥1024px — grid layout */
 @media (min-width:1024px){
-  #timeline{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem 2rem}
-  .timeline-item{width:100%;max-width:none}
+  #timeline { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem 2rem; }
+  .timeline-item { width: 100%; max-width: none; }
 }
-// Task 3 — Vanilla JS interactivity with theme toggle
-document.addEventListener("DOMContentLoaded", () => {
-  const timeline = document.getElementById("timeline");
-  const modal = document.getElementById("modal");
-  const themeToggle = document.getElementById("theme-toggle");
 
-  // Load events from JSON and render
-  loadAndRender();
-
-  async function loadAndRender() {
-    try {
-      const res = await fetch("data/events.json", { cache: "no-store" });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      let events = await res.json();
-
-      events.sort((a, b) => Number(a.year) - Number(b.year));
-      events.forEach(ev => timeline.appendChild(makeItem(ev)));
-
-      if (!events.length) timeline.innerHTML = `<p style="color:#888;">No events found.</p>`;
-    } catch (err) {
-      console.error("Failed to load events.json:", err);
-      timeline.innerHTML = `<p style="color:#c00;">Error: could not load events.</p>`;
-    }
-  }
-
-  // Create a timeline item
-  function makeItem(ev) {
-    const item = document.createElement("div");
-    item.classList.add("timeline-item");
-
-    const marker = document.createElement("div");
-    marker.classList.add("event");
-
-    const content = document.createElement("div");
-    content.classList.add("content");
-    content.innerHTML = `<h3>${ev.title}</h3><p>${ev.year}</p>`;
-
-    // Click handler to open modal
-    item.addEventListener("click", () => openModal(ev));
-
-    item.append(marker, content);
-    return item;
-  }
-
-  // Open modal with event details
-  function openModal(ev) {
-    modal.innerHTML = `
-      <div class="dialog">
-        <span id="close-btn" style="float:right;cursor:pointer;font-weight:bold;">&times;</span>
-        <h2>${ev.title}</h2>
-        <p><strong>Year:</strong> ${ev.year}</p>
-        <p><strong>Category:</strong> ${ev.category}</p>
-        <img src="${ev.imageURL}" alt="${ev.title}" style="max-width:100%;margin:10px 0;">
-        <p>${ev.description}</p>
-      </div>
-    `;
-    modal.style.display = "flex";
-
-    // Close button
-    modal.querySelector("#close-btn").addEventListener("click", closeModal);
-  }
-
-  function closeModal() {
-    modal.style.display = "none";
-  }
-
-  // Close modal when clicking outside the dialog
-  window.addEventListener("click", e => {
-    if (e.target === modal) closeModal();
-  });
-
-  // Theme toggle logic
-  themeToggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark-theme");
-
-    // Optional: store preference in localStorage
-    if (document.body.classList.contains("dark-theme")) {
-      localStorage.setItem("theme", "dark");
-    } else {
-      localStorage.setItem("theme", "light");
-    }
-  });
-
-  // Apply saved theme on load
-  if (localStorage.getItem("theme") === "dark") {
-    document.body.classList.add("dark-theme");
-  }
-});
+/* Dark theme */
+body.dark-theme {
+  --bg: #1e1e1e;
+  --card: #2c2c2c;
+  --primary: #6b92ff;
+  --muted: #aaa;
+  color: #fff;
+  background: var(--bg);
+}
