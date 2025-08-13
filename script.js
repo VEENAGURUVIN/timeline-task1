@@ -1,10 +1,9 @@
-// Task 3 — Vanilla JS interactivity with theme toggle
 document.addEventListener("DOMContentLoaded", () => {
   const timeline = document.getElementById("timeline");
   const modal = document.getElementById("modal");
   const themeToggle = document.getElementById("theme-toggle");
 
-  // Load events from JSON and render
+  // Load events from JSON
   loadAndRender();
 
   async function loadAndRender() {
@@ -13,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       let events = await res.json();
 
-      events.sort((a, b) => Number(a.year) - Number(b.year));
+      events.sort((a,b) => Number(a.year) - Number(b.year));
       events.forEach(ev => timeline.appendChild(makeItem(ev)));
 
       if (!events.length) timeline.innerHTML = `<p style="color:#888;">No events found.</p>`;
@@ -35,14 +34,12 @@ document.addEventListener("DOMContentLoaded", () => {
     content.classList.add("content");
     content.innerHTML = `<h3>${ev.title}</h3><p>${ev.year}</p>`;
 
-    // Click handler to open modal
     item.addEventListener("click", () => openModal(ev));
-
     item.append(marker, content);
     return item;
   }
 
-  // Open modal with event details
+  // Show modal
   function openModal(ev) {
     modal.innerHTML = `
       <div class="dialog">
@@ -55,34 +52,20 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
     modal.style.display = "flex";
-
-    // Close button
     modal.querySelector("#close-btn").addEventListener("click", closeModal);
   }
 
-  function closeModal() {
-    modal.style.display = "none";
-  }
+  function closeModal() { modal.style.display = "none"; }
 
-  // Close modal when clicking outside the dialog
-  window.addEventListener("click", e => {
-    if (e.target === modal) closeModal();
-  });
+  // Close modal by clicking outside
+  window.addEventListener("click", e => { if (e.target === modal) closeModal(); });
 
-  // Theme toggle logic
+  // Theme toggle
   themeToggle.addEventListener("click", () => {
     document.body.classList.toggle("dark-theme");
-
-    // Optional: store preference in localStorage
-    if (document.body.classList.contains("dark-theme")) {
-      localStorage.setItem("theme", "dark");
-    } else {
-      localStorage.setItem("theme", "light");
-    }
+    localStorage.setItem("theme", document.body.classList.contains("dark-theme") ? "dark" : "light");
   });
 
-  // Apply saved theme on load
-  if (localStorage.getItem("theme") === "dark") {
-    document.body.classList.add("dark-theme");
-  }
+  // Apply saved theme
+  if (localStorage.getItem("theme") === "dark") document.body.classList.add("dark-theme");
 });
