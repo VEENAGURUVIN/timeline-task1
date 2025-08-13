@@ -1,0 +1,107 @@
+// Task 3 — Vanilla JS interactivity
+document.addEventListener("DOMContentLoaded", () => {
+  const timeline = document.getElementById("timeline");
+  const modal = document.getElementById("modal");
+
+  // Load events from JSON and render
+  loadAndRender();
+
+  async function loadAndRender() {
+    try {
+      const res = await fetch("data/events.json", { cache: "no-store" });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      let events = await res.json();
+
+      // Sort by year ascending (numeric)
+      events.sort((a, b) => Number(a.year) - Number(b.year));
+
+      // Render markers/cards
+      events.forEach((ev) => timeline.appendChild(makeItem(ev)));
+
+      // If there are no items
+      if (!events.length) {
+        timeline.innerHTML = `<p style="color:#888;">No events found.</p>`;
+      }
+    } catch (err) {
+      console.error("Failed to load events.json:", err);
+      timeline.innerHTML = `<p style="color:#c00;">Error: could not load events.</p>`;
+    }
+  }
+
+  function makeItem(ev) {
+    const article = document.createElement("article");
+    article.className = "timeline-item";
+
+    // Marker (dot)
+    const marker = document.createElement("div");
+    marker.className = "event";
+    marker.title = `${ev.title} (${ev.year})`;
+    marker.tabIndex = 0; // keyboard focus
+
+    // Content card
+    const content = document.createElement("div");
+    content.className = "content";
+    content.innerHTML = `
+      <h3>${escapeHTML(ev.title)}</h3>
+      <p><strong>${escapeHTML(ev.year)}</strong> • ${escapeHTML(ev.category)}</p>
+    `;
+
+    // Open modal on click/keyboard
+    const open = () => openModal(ev);
+    marker.addEventListener("click", open);
+    marker.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        open();
+      }
+    });
+    content.addEventListener("click", open);
+
+    article.appendChild(marker);
+    article.appendChild(content);
+    return article;
+  }
+
+  function openModal(ev) {
+    modal.innerHTML = `
+      <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <button class="close-btn" aria-label="Close" style="position:absolute;right:.6rem;top:.4rem;font-size:1.5rem;background:none;border:none;cursor:pointer">&times;</button>
+        <figure style="margin:0 0 .75rem 0">
+          <img src="${escapeAttr(ev.imageURL)}" alt="${escapeAttr(ev.title)}" style="max-width:100%;height:auto;border-radius:8px"/>
+          <figcaption style="color:#6b7280;font-size:.9rem;margin-top:.25rem">${escapeHTML(ev.year)} • ${escapeHTML(ev.category)}</figcaption>
+        </figure>
+        <h2 id="modal-title" style="margin:.25rem 0 .5rem">${escapeHTML(ev.title)}</h2>
+        <p>${escapeHTML(ev.description)}</p>
+      </div>
+    `;
+    modal.style.display = "flex";
+
+    const closeBtn = modal.querySelector(".close-btn");
+    const dialog = modal.querySelector(".dialog");
+
+    const onEsc = (e) => e.key === "Escape" && closeModal();
+    document.addEventListener("keydown", onEsc);
+
+    // Close interactions
+    closeBtn.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => {
+      if (!dialog.contains(e.target)) closeModal();
+    });
+
+    function closeModal() {
+      modal.style.display = "none";
+      modal.innerHTML = "";
+      document.removeEventListener("keydown", onEsc);
+    }
+  }
+
+  // Simple XSS-safe helpers
+  function escapeHTML(str) {
+    return String(str).replace(/[&<>"']/g, (m) => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[m]));
+  }
+  function escapeAttr(str) {
+    return escapeHTML(str).replace(/`/g, "&#96;");
+  }
+});
