@@ -1,9 +1,10 @@
 import Header from "./components/Header";
 import Timeline from "./components/Timeline";
+import "./index.css"; // global theme styles
 
 export default function App() {
   return (
-    <div className="min-h-screen flex flex-col bg-white text-black">
+    <div className="min-h-screen flex flex-col bg-white text-black dark:bg-gray-900 dark:text-gray-100">
       {/* Site Header */}
       <Header />
 
@@ -15,12 +16,12 @@ export default function App() {
         >
           <h2
             id="timeline-heading"
-            className="text-2xl font-bold mb-4 text-gray-900"
+            className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100"
           >
             Interactive Timeline
           </h2>
-          <p className="mb-6 text-gray-700">
-            Use arrow keys to navigate between events. Press <kbd>Enter</kbd> or
+          <p className="mb-6 text-gray-700 dark:text-gray-300">
+            Use arrow keys to navigate between events. Press <kbd>Enter</kbd> or{" "}
             <kbd>Space</kbd> to open an event. Press <kbd>Esc</kbd> to close the
             modal.
           </p>
@@ -30,7 +31,7 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="p-4 bg-gray-100 text-center text-sm text-gray-700">
+      <footer className="p-4 bg-gray-100 dark:bg-gray-800 text-center text-sm text-gray-700 dark:text-gray-300">
         © {new Date().getFullYear()} Timeline App – Accessible by design
       </footer>
     </div>
