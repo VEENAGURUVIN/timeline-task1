@@ -1,171 +1,32 @@
-//* ============================= */
-/* Root variables for colors & spacing */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Ensure WCAG AA contrast */
 :root {
-  --bg: #f6f8fb;
-  --card: #ffffff;
-  --primary: #4b6cb7;
-  --muted: #6b7280;
-  --gap: 1.25rem;
+  --color-text: #111111;
+  --color-bg: #ffffff;
+  --color-link: #1a73e8;
 }
 
-/* ============================= */
-/* Reset & base styles */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+.dark {
+  --color-text: #f5f5f5;
+  --color-bg: #121212;
+  --color-link: #90caf9;
 }
 
+/* Override Tailwind utilities for accessibility */
 body {
-  font-family: Inter, system-ui, Arial, sans-serif;
-  background: var(--bg);
-  color: #222;
-  line-height: 1.4;
-  padding-bottom: 3rem;
+  color: var(--color-text);
+  background-color: var(--color-bg);
 }
 
-/* ============================= */
-/* Header */
-header {
-  background: linear-gradient(90deg, #3b69b0, #5b8be0);
-  color: #fff;
-  padding: 1rem 1.25rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+a {
+  color: var(--color-link);
 }
 
-header h1 {
-  font-size: 1.25rem;
-}
-
-#theme-toggle {
-  background: #fff;
-  border: none;
-  padding: 0.4rem 0.7rem;
-  border-radius: 6px;
-  color: var(--primary);
-  cursor: pointer;
-}
-
-/* ============================= */
-/* Nav placeholder */
-nav {
-  padding: 0.75rem 1rem;
-  text-align: center;
-  color: var(--muted);
-}
-
-/* ============================= */
-/* Timeline container */
-#timeline {
-  padding: 2rem 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-  align-items: center;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-/* Each timeline item */
-.timeline-item {
-  display: flex;
-  gap: 1rem;
-  align-items: flex-start;
-  width: 100%;
-  max-width: 900px;
-  cursor: pointer;
-}
-
-/* Marker dot */
-.event {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--primary);
-  flex: 0 0 18px;
-  margin-top: 8px;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.08);
-}
-
-/* Content card */
-.content {
-  background: var(--card);
-  padding: 0.85rem 1rem;
-  border-radius: 8px;
-  box-shadow: 0 6px 18px rgba(20,20,30,0.06);
-  flex: 1 1 auto;
-}
-
-.content h3 {
-  font-size: 1rem;
-  margin-bottom: 0.25rem;
-}
-
-.content p {
-  color: var(--muted);
-  font-size: 0.95rem;
-  margin: 0;
-}
-
-/* ============================= */
-/* Modal styling */
-#modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0,0,0,0.5);
-  z-index: 60;
-}
-
-#modal .dialog {
-  background: #fff;
-  padding: 1rem;
-  border-radius: 8px;
-  max-width: 700px;
-  width: 92%;
-}
-
-/* ============================= */
-/* Responsive breakpoints */
-
-/* Mobile: <768px */
-@media (max-width: 767px) {
-  header h1 { font-size: 1.05rem; }
-  .timeline-item { padding: 0 0.5rem; }
-}
-
-/* Tablet: 768–1023px */
-@media (min-width: 768px) and (max-width: 1023px) {
-  #timeline {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 1.25rem;
-    justify-content: center;
-  }
-  .timeline-item { width: 48%; max-width: 460px; }
-}
-
-/* Desktop: ≥1024px */
-@media (min-width: 1024px) {
-  #timeline {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem 2rem;
-  }
-  .timeline-item { width: 100%; max-width: none; }
-}
-
-/* ============================= */
-/* Dark theme */
-body.dark-theme {
-  --bg: #1e1e1e;
-  --card: #2c2c2c;
-  --primary: #6b92ff;
-  --muted: #aaa;
-  background: var(--bg);
-  color: #fff;
+a:focus,
+button:focus {
+  outline: 2px solid #2563eb; /* strong visible focus ring */
+  outline-offset: 2px;
 }
