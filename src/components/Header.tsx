@@ -1,17 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Header() {
-  const [dark, setDark] = useState(false);
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+  }, [theme]);
 
   return (
-    <header className="flex items-center justify-between p-4 bg-gray-100">
-      <h1 className="text-lg font-bold">Timeline App</h1>
+    <header
+      className="flex items-center justify-between p-4 bg-gray-200 dark:bg-gray-800"
+      role="banner"
+    >
+      <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+        Timeline App
+      </h1>
       <button
-        aria-label="Toggle dark mode"
-        onClick={() => setDark(!dark)}
-        className="px-3 py-2 rounded-lg bg-gray-800 text-white"
+        onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+        aria-label="Toggle theme"
+        className="px-3 py-1 rounded bg-gray-800 text-white dark:bg-gray-200 dark:text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
-        {dark ? "🌙 Dark" : "☀️ Light"}
+        {theme === "light" ? "🌙 Dark" : "☀️ Light"}
       </button>
     </header>
   );
