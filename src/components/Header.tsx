@@ -1,9 +1,18 @@
-function Header() {
+import { useState } from "react";
+
+export default function Header() {
+  const [dark, setDark] = useState(false);
+
   return (
-    <header className="p-4 shadow-md flex justify-between items-center">
-      <h2 className="text-xl font-semibold">My Timeline</h2>
-      <button aria-label="Toggle theme">🌙</button>
+    <header className="flex items-center justify-between p-4 bg-gray-100">
+      <h1 className="text-lg font-bold">Timeline App</h1>
+      <button
+        aria-label="Toggle dark mode"
+        onClick={() => setDark(!dark)}
+        className="px-3 py-2 rounded-lg bg-gray-800 text-white"
+      >
+        {dark ? "🌙 Dark" : "☀️ Light"}
+      </button>
     </header>
   );
 }
-export default Header;
