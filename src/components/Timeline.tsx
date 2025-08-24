@@ -1,44 +1,52 @@
-import { useState } from "react";
 import EventMarker from "./EventMarker";
+import { useState, useRef } from "react";
 import EventModal from "./EventModal";
 
-type Event = { id: number; date: string; title: string; description: string };
-
-const DUMMY_EVENTS: Event[] = [
-  { id: 1, date: "2024-01-10", title: "Project Start", description: "Kickoff meeting." },
-  { id: 2, date: "2024-03-02", title: "MVP Ready", description: "First release shipped." },
-  { id: 3, date: "2024-06-15", title: "Public Launch", description: "We went live!" },
+const events = [
+  { year: "2000", title: "Y2K", description: "The millennium bug scare" },
+  { year: "2004", title: "Facebook", description: "Launch of Facebook" },
+  { year: "2007", title: "iPhone", description: "Apple releases iPhone" },
 ];
 
-function Timeline() {
-  const [selected, setSelected] = useState<Event | null>(null);
+export default function Timeline() {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
+
+  const handleKeyNav = (e: React.KeyboardEvent, index: number) => {
+    const markers = document.querySelectorAll<HTMLButtonElement>(".marker-btn");
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      markers[index + 1]?.focus();
+    }
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      markers[index - 1]?.focus();
+    }
+  };
 
   return (
-    <div className="p-4">
-      <div className="border-l pl-6">
-        {DUMMY_EVENTS.map(ev => (
-          <div key={ev.id} className="flex items-center gap-4">
-            <EventMarker
-              label={ev.title}
-              onClick={() => setSelected(ev)}
-            />
-            <div className="py-4">
-              <div className="text-sm text-gray-500">{ev.date}</div>
-              <div className="font-medium">{ev.title}</div>
-            </div>
-          </div>
-        ))}
-      </div>
+    <div className="flex gap-4 items-center justify-center mt-6">
+      {events.map((event, i) => (
+        <EventMarker
+          key={event.year}
+          event={event}
+          isActive={activeIndex === i}
+          onClick={() => {
+            triggerRef.current = document.activeElement as HTMLElement;
+            setActiveIndex(i);
+          }}
+          onKeyNav={handleKeyNav}
+          index={i}
+        />
+      ))}
 
-      <EventModal
-        open={!!selected}
-        title={selected?.title}
-        onClose={() => setSelected(null)}
-      >
-        <p className="text-sm text-gray-700">{selected?.description}</p>
-        <p className="text-xs mt-2 text-gray-500">Date: {selected?.date}</p>
-      </EventModal>
+      {activeIndex !== null && (
+        <EventModal
+          event={events[activeIndex]}
+          onClose={() => setActiveIndex(null)}
+          triggerRef={triggerRef}
+        />
+      )}
     </div>
   );
 }
-export default Timeline;
